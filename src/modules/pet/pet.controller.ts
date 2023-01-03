@@ -8,6 +8,10 @@ export class PetController {
 
   @Post('insert')
   async insert(@Body() data: insertPetDTO): Promise<void> {
-    await this.petService.insertPet(data);
+    try {
+      await this.petService.insertPet(data);
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
