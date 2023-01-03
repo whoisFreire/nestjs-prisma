@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Pet } from '@prisma/client';
 import { insertPetDTO } from './dtos/insert-pet-dto';
 import { PetService } from './pet.service';
 
@@ -10,6 +11,16 @@ export class PetController {
   async insert(@Body() data: insertPetDTO): Promise<void> {
     try {
       await this.petService.insertPet(data);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  @Get()
+  async show(): Promise<Pet[]> {
+    try {
+      const pets = await this.petService.findAll();
+      return pets;
     } catch (err) {
       throw new Error(err);
     }
